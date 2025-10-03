@@ -7,12 +7,23 @@ import Header from "@/components/shared/Header";
 import { getUserImages } from "@/lib/actions/image.actions";
 import { getUserById } from "@/lib/actions/user.actions";
 
+// Updated type for Next.js 15
+type SearchParamProps = {
+  searchParams?: Promise<{
+    page?: string;
+    query?: string;
+  }>;
+};
+
 const Profile = async ({ searchParams }: SearchParamProps) => {
-  const page = Number(searchParams?.page) || 1;
-const { userId } = await auth();
-
-
+  // First, await the auth() call
+  const { userId } = await auth();
+  
   if (!userId) redirect("/sign-in");
+
+  // Then, await the searchParams promise
+  const resolvedSearchParams = await searchParams;
+  const page = Number(resolvedSearchParams?.page) || 1;
 
   const user = await getUserById(userId);
   const images = await getUserImages({ page, userId: user._id });
