@@ -4,18 +4,19 @@ import { getAllImages } from "@/lib/actions/image.actions"
 import Image from "next/image"
 import Link from "next/link"
 
-type SearchParamProps = {
+interface SearchParamProps {
   searchParams?: {
-    page?: string
-    query?: string
-  }
+    page?: string;
+    query?: string;
+  };
 }
 
 const Home = async ({ searchParams }: SearchParamProps) => {
-  const page = Number(searchParams?.page) || 1
-  const searchQuery = searchParams?.query || ""
+  // ✅ yaha direct object use karo
+  const page = Number(searchParams?.page) || 1;
+  const searchQuery = searchParams?.query || "";
 
-  const images = await getAllImages({ page, searchQuery })
+  const images = await getAllImages({ page, searchQuery });
 
   return (
     <>
@@ -23,7 +24,7 @@ const Home = async ({ searchParams }: SearchParamProps) => {
         <div className=" bg-blackOverlay ">
           <section className="home">
             <h1 className="home-heading">
-              Unleash <b><i>Your</i></b> Creative Vision with <b> <i>Visiora</i></b>
+              Unleash <b><i>Your</i></b> Creative Vision with <b><i>Visiora</i></b>
             </h1>
             <ul className="flex-center w-full gap-20">
               {navLinks.slice(1, 5).map((link) => (
@@ -44,7 +45,7 @@ const Home = async ({ searchParams }: SearchParamProps) => {
       </section>
 
       <section className="sm:mt-12">
-        <Collection 
+        <Collection
           hasSearch={true}
           images={images?.data}
           totalPages={images?.totalPage}
@@ -52,8 +53,7 @@ const Home = async ({ searchParams }: SearchParamProps) => {
         />
       </section>
     </>
-  )
-}
+  );
+};
 
-export default Home
-
+export default Home;
